@@ -16,6 +16,7 @@ from riak import key_filter
 
 from riak.test_server import TestServer
 
+from riak.tests.test_yokozuna import YZSearchTests
 from riak.tests.test_search import SearchTests, \
     EnableSearchTests, SolrSearchTests
 from riak.tests.test_mapreduce import MapReduceAliasTests, \
@@ -128,6 +129,7 @@ class RiakPbcTransportTestCase(BasicKVTests,
                                MapReduceAliasTests,
                                MapReduceStreamTests,
                                SearchTests,
+                               YZSearchTests,
                                BaseTestCase,
                                unittest.TestCase):
 
@@ -169,6 +171,7 @@ class RiakHttpTransportTestCase(BasicKVTests,
                                 EnableSearchTests,
                                 SolrSearchTests,
                                 SearchTests,
+                                YZSearchTests,
                                 BaseTestCase,
                                 unittest.TestCase):
 

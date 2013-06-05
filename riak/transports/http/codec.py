@@ -223,9 +223,14 @@ class RiakHttpCodec(object):
             result['max_score'] = float(json[u'response'][u'maxScore'])
             docs = []
             for doc in json[u'response'][u'docs']:
-                resdoc = {u'id': doc[u'id']}
-                if u'fields' in doc:
-                    for k, v in doc[u'fields'].iteritems():
+                if u'id' in doc:
+                    resdoc = {u'id': doc[u'id']}
+                    if u'fields' in doc:
+                        for k, v in doc[u'fields'].iteritems():
+                            resdoc[k] = v
+                elif u'_yz_id' in doc:
+                    resdoc = {u'id': doc[u'_yz_id']}
+                    for k, v in doc.iteritems():
                         resdoc[k] = v
                 docs.append(resdoc)
             result['docs'] = docs

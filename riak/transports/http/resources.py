@@ -86,13 +86,16 @@ class RiakHttpResources(object):
                       finish, **options)
 
     def solr_select_path(self, index, query, **options):
-        if not self.riak_solr_searcher_wm:
+        if not (self.riak_solr_searcher_wm or self.yz_wm_search):
             raise RiakError("Riak Search is unsupported by this Riak node")
         qs = {'q': query, 'wt': 'json'}
         qs.update(options)
         if index:
             index = quote_plus(index)
-        return mkpath(self.riak_solr_searcher_wm, index, "select", **qs)
+        if self.yz_wm_search:
+            return mkpath(self.yz_wm_search, index, "select", **qs)
+        else:
+            return mkpath(self.riak_solr_searcher_wm, index, "select", **qs)
 
     def solr_update_path(self, index):
         if not self.riak_solr_searcher_wm:
@@ -135,6 +138,10 @@ class RiakHttpResources(object):
     @lazy_property
     def riak_solr_searcher_wm(self):
         return self.resources.get('riak_solr_searcher_wm')
+
+    @lazy_property
+    def yz_wm_search(self):
+        return self.resources.get('yz_wm_search')
 
     @lazy_property
     def riak_solr_indexer_wm(self):
